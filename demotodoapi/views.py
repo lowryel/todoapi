@@ -6,6 +6,9 @@ from rest_framework.decorators import api_view
 from .models import Todo
 from rest_framework import generics
 from rest_framework import permissions, authentication
+from django.views.decorators.vary import vary_on_cookie
+from django.views.decorators.cache import cache_page
+
 
 
 # Create your views here.
@@ -27,6 +30,9 @@ class TodoListCreateAPIView(generics.ListCreateAPIView):
     authentication_classes = [authentication.TokenAuthentication,
                             authentication.SessionAuthentication]
 
+    method_decorator = (cache_page(60*1))
+    method_decorator = vary_on_cookie
+
 
 ''' 
     ========== Retrieve a single apiView ================
@@ -39,6 +45,7 @@ class TodoDetailAPIView(generics.RetrieveAPIView):
     authentication_classes = [authentication.TokenAuthentication,
                             authentication.SessionAuthentication]
     # lookup_url_kwarg = 'pk'
+
 
 
 ''' 
